@@ -15,11 +15,9 @@ const Widget = {
     ReactDOM.createRoot(
       div,
     ).render(
-      <React.StrictMode>
         <ModalProvider>
           <App widget={self}/>
-        </ModalProvider>
-      </React.StrictMode>,
+        </ModalProvider>,
     );
 
 		return true;
