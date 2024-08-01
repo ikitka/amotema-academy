@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const InputStyled = styled.input`
-  width: 100%;
-  padding: 7px;
-  box-sizing: border-box;
-  border-radius: 7px;
-  border: 1px solid #E4E7ED;
-  margin-bottom: 15px;
-`;
+
 
 const MenuSearch = ({ sections, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,3 +25,16 @@ const MenuSearch = ({ sections, onSearch }) => {
 };
 
 export default MenuSearch;
+
+
+
+
+// Styles
+const InputStyled = styled.input`
+  width: 100%;
+  padding: 7px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  border: 1px solid #E4E7ED;
+  margin-bottom: 15px;
+`;

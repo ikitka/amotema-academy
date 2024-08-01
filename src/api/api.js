@@ -1,21 +1,24 @@
 
 import config from "./config";
 
+const getAuthHeaders = () => {
+  const uuid = APP.constant('user').uuid;
+  const subdomain = APP.constant('account').subdomain;
+  return {
+    'Authorization': `Bearer ${uuid}`,
+    'Suburl': subdomain,
+    'Content-Type': 'application/json'
+  };
+};
+
 const api = {
 
   getSections: async () => {
 
-    const uuid = APP.constant('user').uuid;
-    const subdomain = APP.constant('account').subdomain;
-
     try {
       const response = await fetch(config.url + 'sections', {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        }
+        headers: getAuthHeaders()
       });
       const data = await response.json();
       return data;
@@ -27,19 +30,10 @@ const api = {
 
   createSection: async (newSection) => {
 
-    const uuid = APP.constant('user').uuid;
-    const subdomain = APP.constant('account').subdomain;
-
-    console.log(newSection);
-    
     try {
       const response = await fetch(config.url + 'sections', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(newSection)
       });
 
@@ -57,17 +51,10 @@ const api = {
 
   getArticles: async (sectionId) => {
 
-    const uuid = APP.constant('user').uuid;
-    const subdomain = APP.constant('account').subdomain;
-
     try {
       const response = await fetch(config.url + `articles?section=${sectionId}`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        }
+        headers: getAuthHeaders()
       });
       const data = await response.json();
       return data;
@@ -79,17 +66,10 @@ const api = {
 
   getArticle: async (articleId) => {
 
-    const uuid = APP.constant('user').uuid;
-    const subdomain = APP.constant('account').subdomain;
-
     try {
       const response = await fetch(config.url + `articles/${articleId}`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        }
+        headers: getAuthHeaders()
       });
       const data = await response.json();
       return data;
@@ -101,19 +81,10 @@ const api = {
 
   createArticle: async (newArticle) => {
 
-    const uuid = APP.constant('user').uuid;
-    const subdomain = APP.constant('account').subdomain;
-
-    console.log(newArticle);
-    
     try {
       const response = await fetch(config.url + 'articles', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(newArticle)
       });
 
@@ -131,18 +102,12 @@ const api = {
 
   getUser: async () => {
 
-    const uuid = APP.constant('user').uuid;
     const amo_id = APP.constant('user').id;
-    const subdomain = APP.constant('account').subdomain;
 
     try {
       const response = await fetch(config.url + `users/${amo_id}`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        }
+        headers: getAuthHeaders()
       });
       const data = await response.json();
       return data;
@@ -154,17 +119,10 @@ const api = {
 
   getUsers: async () => {
 
-    const uuid = APP.constant('user').uuid;
-    const subdomain = APP.constant('account').subdomain;
-
     try {
       const response = await fetch(config.url + `users`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${uuid}`,
-          'Suburl': `${subdomain}`,
-          'Content-Type': 'application/json'
-        }
+        headers: getAuthHeaders()
       });
       const data = await response.json();
       return data;

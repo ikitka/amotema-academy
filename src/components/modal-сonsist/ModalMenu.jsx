@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { MenuStyled } from './ModalMenu.style';
-import ContentPlaceholder from '../../ui/ContentPlaceholder/ContentPlaceholder';
+import styled from 'styled-components';
 import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
 
+import ContentPlaceholder from '../../ui/ContentPlaceholder/ContentPlaceholder';
 import MenuButton from '../menu-components/MenuButton';
 import MenuSearch from '../menu-components/MenuSearch';
 import CustomButton from '../../ui/CustomButton/CustomButton';
 import MenuArticles from '../menu-components/MenuArticles';
 
 
+
 const ModalMenu = () => {
 
-  const { activeSection, setActiveSection, sectionData, setSectionData, userData, setUserData, usersData, setUsersData, activeType, setActiveType } = useContext(ModalContext);
+  const { activeSection, setActiveSection, sectionData, setSectionData, userData, setUserData, usersData, setUsersData, activeType, setActiveType, selectedSection, setSelectedSection } = useContext(ModalContext);
 
   const [isLoading, setIsLoading] = useState(true);
 
   const [filteredSections, setFilteredSections] = useState([]);
-
-  const [selectedSection, setSelectedSection] = useState(null);
 
   useEffect(() => {
     handleData(); // при монтировании вызываем получение данных нужных
@@ -64,6 +63,7 @@ const ModalMenu = () => {
       setSelectedSection(section);
       setActiveType('article');
       console.log(section);
+      setActiveSection('section');
     }
 
   };
@@ -84,52 +84,94 @@ const ModalMenu = () => {
 
   return (
     <MenuStyled>
-      <MenuSearch sections={sectionData} onSearch={handleSearch} />
-      {filteredSections.map((section, index) => (
-        (selectedSection === section || selectedSection === null) ? (
-          <div key={index}>
-            <MenuButton
-              id={section.id}
-              name={section.name}
-              handleClick={handleClick}
-              section={section}
-              mode={selectedSection === section ? 'active' : 'default'}
-            />
-            {selectedSection === section ? <MenuArticles sectionId={section.id}/> : null}
-          </div>
-        ) : null
-      ))}
 
-      {activeType === 'section' ? (
-        <CustomButton
-          text='Создать раздел'
-          padding={'7px'}
-          color='green'
-          onClick={() => setActiveSection('create-section')}
-          style={{
-            width: '100%',
-            opacity: 1,
-            cursor: 'pointer',
-            marginTop: '10px',
-          }}
-        />
-      ) : (
-        <CustomButton
-          text='Создать статью'
-          padding={'7px'}
-          color='green'
-          onClick={() => setActiveSection('create-article')}
-          style={{
-            width: '100%',
-            opacity: 1,
-            cursor: 'pointer',
-            marginTop: '10px',
-          }}
-        />
-      )}
+      <SearchContainer>
+        <MenuSearch sections={sectionData} onSearch={handleSearch} />
+      </SearchContainer>
+
+      <MenuContainer>
+        {filteredSections.map((section, index) => (
+          (selectedSection === section || selectedSection === null) ? (
+            <div key={index}>
+              <MenuButton
+                id={section.id}
+                name={section.name}
+                handleClick={handleClick}
+                section={section}
+                mode={selectedSection === section ? 'active' : 'default'}
+              />
+              {selectedSection === section ? <MenuArticles sectionId={section.id}/> : null}
+            </div>
+          ) : null
+        ))}
+      </MenuContainer>
+
+      <ButtonsContainer>
+        {activeType === 'section' ? (
+          <CustomButton
+            text='Создать раздел'
+            padding={'7px'}
+            color='green'
+            onClick={() => setActiveSection('create-section')}
+            style={{
+              width: '100%',
+              opacity: 1,
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+          />
+        ) : (
+          <CustomButton
+            text='Создать статью'
+            padding={'7px'}
+            color='green'
+            onClick={() => setActiveSection('create-article')}
+            style={{
+              width: '100%',
+              opacity: 1,
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+          />
+        )}
+      </ButtonsContainer>
 
     </MenuStyled>
   )
 };
 
 export default ModalMenu;
+
+
+
+
+// Styles
+const MenuStyled = styled.div`
+  background-color: #FFFFFF;
+  flex: 22%;
+  padding: 15px;
+  min-width: 260px;
+  box-sizing: border-box;
+  border-right: 1px solid #E4E7ED;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SearchContainer = styled.div`
+  flex-shrink: 0;
+  height: 50px;
+`;
+
+const MenuContainer = styled.div`
+  flex: 1; /* Позволяет MenuContainer занимать всё доступное пространство */
+  overflow-y: auto; /* Добавляет прокрутку при необходимости */
+`;
+
+const ButtonsContainer = styled.div`
+  flex-shrink: 0;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

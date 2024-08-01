@@ -13,6 +13,7 @@ const ModalProvider = ({ children }) => {
   const [activeType, setActiveType] = useState('section');
 
   const [selectedArticle, setSelectedArticle] = useState({});
+  const [selectedSection, setSelectedSection] = useState(null);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -34,7 +35,24 @@ const ModalProvider = ({ children }) => {
   };
 
   return (
-    <ModalContext.Provider value={{ isModalOpen, openModal, closeModal, activeSection, setActiveSection, sectionData, setSectionData, articleData, setArticleData, addArticle, addSection, userData, setUserData, usersData, setUsersData, selectedArticle, setSelectedArticle, activeType, setActiveType }}>
+    <ModalContext.Provider
+      value={{
+        isModalOpen, openModal, closeModal,
+        activeSection, setActiveSection,
+        sectionData, setSectionData,
+        articleData, setArticleData,
+        
+        addArticle, addSection,
+        
+        userData, setUserData,
+        usersData, setUsersData,
+        
+        selectedArticle, setSelectedArticle,
+        selectedSection, setSelectedSection,
+        
+        activeType, setActiveType
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );

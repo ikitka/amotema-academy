@@ -1,6 +1,5 @@
 import React from 'react';
-import { HeaderStyled } from './ModalHeader.style';
-
+import styled from 'styled-components';
 
 const ModalHeader = () => {
   
@@ -13,3 +12,16 @@ const ModalHeader = () => {
 };
 
 export default ModalHeader;
+
+
+
+
+// Styles
+const HeaderStyled = styled.div`
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #E4E7ED;
+`;

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import styled from 'styled-components';
 import MenuArticleButton from './MenuArticleButton';
 import { ModalContext } from '../../contexts/ModalContext';
 import ContentPlaceholder from '../../ui/ContentPlaceholder/ContentPlaceholder';

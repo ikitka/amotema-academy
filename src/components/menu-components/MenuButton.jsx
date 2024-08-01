@@ -1,29 +1,55 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-// Styled components
+
+
+const MenuButton = ({ name, handleClick, section, id, mode }) => {
+
+  return (
+    <Container onClick={() => handleClick(section)} >
+      <IconContainer>
+        {mode === 'default' && <img src={'https://test-widget-9417.website/prod_projects/gktema/icon-book2.png'} style={{width: '20px', height: '20px'}}/>}
+        {mode === 'active' && <img src={'https://test-widget-9417.website/prod_projects/gktema/icon-backward.png'} style={{width: '20px', height: '20px'}}/>}
+      </IconContainer>
+      <Text>{name}</Text>
+    </Container>
+  );
+};
+
+export default MenuButton;
+
+
+
+
+
+// Styles
 const Container = styled.div`
   display: flex;
   align-items: center;
   background-color: #ffffff;
-  padding: 10px;
+  padding: 5px;
   border-radius: 6px;
   cursor: pointer;
 
   &:hover {
     background-color: #EDF0F3;
   }
+
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 
 const IconContainer = styled.div`
   margin-right: 10px;
+  padding-left: 4px;
   font-size: 24px;
   color: #6260c7;
 `;
 
 const Text = styled.div`
   flex: 1;
-  font-size: 15px;
+  font-size: 14px;
   color: #000;
 
   white-space: nowrap;
@@ -46,18 +72,3 @@ const Button = styled.div`
     background-color: #DBDEE0;
   }
 `;
-
-const MenuButton = ({ name, handleClick, section, id, mode }) => {
-
-  return (
-    <Container onClick={() => handleClick(section)} >
-      <IconContainer>
-        {mode === 'default' && <img src={'https://test-widget-9417.website/prod_projects/gktema/icon-book2.png'} style={{width: '20px', height: '20px'}}/>}
-        {mode === 'active' && <img src={'https://test-widget-9417.website/prod_projects/gktema/icon-backward.png'} style={{width: '20px', height: '20px'}}/>}
-      </IconContainer>
-      <Text>{name}</Text>
-    </Container>
-  );
-};
-
-export default MenuButton;
