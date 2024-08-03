@@ -24,4 +24,9 @@ const HeaderStyled = styled.div`
   padding: 25px;
   box-sizing: border-box;
   border-bottom: 1px solid #E4E7ED;
+
+  user-select: none; /* Для современных браузеров */
+  -webkit-user-select: none; /* Для Safari */
+  -moz-user-select: none; /* Для Firefox */
+  -ms-user-select: none; /* Для старых версий IE и Edge */
 `;

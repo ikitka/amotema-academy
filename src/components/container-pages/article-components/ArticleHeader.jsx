@@ -4,6 +4,7 @@ import CustomButton from '../../../ui/CustomButton/CustomButton';
 import takeAmoUser from '../../../handlers/takeAmoUser';
 import dataConverter from '../../../handlers/dataConverter';
 import { ModalContext } from '../../../contexts/ModalContext';
+import api from '../../../api/api';
 
 
 const ArticleHeader = ({ article }) => {
@@ -13,6 +14,12 @@ const ArticleHeader = ({ article }) => {
   const user = takeAmoUser(article.author);
   const userName = user ? user.title : 'Имя не известно';
   const userAvatar = user && user.avatar ? 'https://tematechnics.amocrm.ru/' + user.avatar : 'https://test-widget-9417.website/prod_projects/gktema/icon-user.png';
+
+  const deleteArticleThere = async (id) => {
+    console.log(id);
+    const response = await api.deleteArticle(id);
+    console.log(response);
+  }
 
   return (
     <Container>
@@ -27,14 +34,14 @@ const ArticleHeader = ({ article }) => {
               {userName}
             </div>
             <div style={{ fontSize: '13px' }}>
-              Последнее изменение: {dataConverter(article.date_update)}
+              {dataConverter(article.date_update)}
             </div>
           </TextContainer>
         </AuthorInfoContainer>
       </LeftContainer>
       <RightContainer>
         <CustomButton
-          text='Редактировать статью'
+          text='Редактировать'
           padding={'4px 10px'}
           color='white'
           onClick={() => setActiveSection('create-article')}
@@ -44,6 +51,20 @@ const ArticleHeader = ({ article }) => {
             border: '1px solid #bbbbbb',
           }}
         />
+
+        <CustomButton
+          text='Удалить'
+          padding={'4px 10px'}
+          color='red'
+          onClick={() => deleteArticleThere(article.id)}
+          style={{
+            opacity: 1,
+            cursor: 'pointer',
+            border: '1px solid #bbbbbb',
+            marginLeft: '5px',
+          }}
+        />
+
         <CustomButton
           text='...'
           padding={'4px 4px'}

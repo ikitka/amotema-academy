@@ -51,4 +51,5 @@ const ContainerText = styled.div`
   width: 800px;
   margin-top: 40px;
   font-size: 16px;
+  white-space: pre-wrap;
 `;

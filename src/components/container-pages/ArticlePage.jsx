@@ -13,6 +13,8 @@ import ArticleHeader from './article-components/ArticleHeader';
 const ContainerStyled = styled.div`
 
   margin-top: 25px;
+  height: 100%;
+  overflow-y: auto;
 
   h1 {
     font-size: 26px;

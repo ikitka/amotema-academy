@@ -1,23 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
 
-
-
-const MenuArticleButton = ({ name, id }) => {
-
+const MenuArticleButton = ({ name, id, level, hasChildren, isExpanded, onToggleExpand }) => {
   const { selectedArticle, setSelectedArticle, setActiveSection } = useContext(ModalContext);
+  const [isButtonVisible, setButtonVisible] = useState(false);
+
 
   const handleClick = async () => {
     const resArticle = await api.getArticle(id);
     setSelectedArticle(resArticle);
-    console.log(resArticle);
     setActiveSection('article');
-  }
-
-
-  const [isButtonVisible, setButtonVisible] = useState(false);
+  };
 
   const handleContainerMouseEnter = () => {
     setButtonVisible(true);
@@ -26,23 +21,25 @@ const MenuArticleButton = ({ name, id }) => {
   const handleContainerMouseLeave = () => {
     setButtonVisible(false);
   };
-
-  const handleAddClick = (event) => {
-    event.stopPropagation();
-    console.log('Button clicked');
-  };
-
+  
 
   return (
     <Container
       onMouseEnter={handleContainerMouseEnter}
       onMouseLeave={handleContainerMouseLeave}
-      onClick={handleClick}
-      style={selectedArticle && selectedArticle.id === id ? { backgroundColor: '#dfe2e6' } : {}}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleClick();
+        if (hasChildren) {
+          onToggleExpand();
+        }
+      }}
+      style={{ marginLeft: `${level * 20}px` }}
+      isSelected={selectedArticle && selectedArticle.id === id}
     >
-      <IconContainer>•</IconContainer>
-      <Text>{name}</Text>
-      <Button visible={isButtonVisible} onClick={handleAddClick}>+</Button>
+      <IconContainer style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{hasChildren ? (isExpanded ? '=' : '>') : '•'}</IconContainer>
+      <Text style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{name}</Text>
+      <Button visible={isButtonVisible} onClick={(e) => e.stopPropagation()}>+</Button>
     </Container>
   );
 };
@@ -53,17 +50,23 @@ export default MenuArticleButton;
 
 
 
+
 // Styles
 const Container = styled.div`
   display: flex;
   align-items: center;
-  background-color: #ffffff;
   padding: 5px;
   border-radius: 6px;
   cursor: pointer;
+  background-color: ${props => props.isSelected ? '#dfe2e6' : '#ffffff'};
+
+  user-select: none; /* Для современных браузеров */
+  -webkit-user-select: none; /* Для Safari */
+  -moz-user-select: none; /* Для Firefox */
+  -ms-user-select: none; /* Для старых версий IE и Edge */
 
   &:hover {
-    background-color: #EDF0F3;
+    background-color: ${props => props.isSelected ? '#dfe2e6' : '#EDF0F3'};
   }
 
   &:active {
@@ -73,14 +76,14 @@ const Container = styled.div`
 
 const IconContainer = styled.div`
   margin-right: 7px;
-  margin-left: 3px;
+  margin-left: 7px;
+  font-weight: bold;
 `;
 
 const Text = styled.div`
   flex: 1;
   font-size: 14px;
   color: #000;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

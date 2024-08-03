@@ -31,6 +31,11 @@ const Container = styled.div`
   border-radius: 6px;
   cursor: pointer;
 
+  user-select: none; /* Для современных браузеров */
+  -webkit-user-select: none; /* Для Safari */
+  -moz-user-select: none; /* Для Firefox */
+  -ms-user-select: none; /* Для старых версий IE и Edge */
+
   &:hover {
     background-color: #EDF0F3;
   }
