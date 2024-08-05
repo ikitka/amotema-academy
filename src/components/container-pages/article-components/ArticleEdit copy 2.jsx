@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
+import api from '../../api/api';
+import { ModalContext } from '../../contexts/ModalContext';
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm';
@@ -6,13 +8,13 @@ import rehypeRaw from 'rehype-raw'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import styled from 'styled-components';
-import { ModalContext } from '../../../contexts/ModalContext';
+import ArticleHeader from './article-components/ArticleHeader';
 
 
 
 
 
-const ArticleEdit = () => {
+const ArticleEdit2 = () => {
   const { selectedArticle } = useContext(ModalContext);
 
   const copyCodeToClipboard = async (code) => {
@@ -91,7 +93,7 @@ const ArticleEdit = () => {
   );
 };
 
-export default ArticleEdit;
+export default ArticleEdit2;
 
 const ContainerStyled = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 
-const MenuButton = ({ name, handleClick, section, id, mode }) => {
+const MenuButtonSection = ({ name, handleClick, section, id, mode }) => {
 
   return (
     <Container onClick={() => handleClick(section)} >
@@ -16,7 +16,7 @@ const MenuButton = ({ name, handleClick, section, id, mode }) => {
   );
 };
 
-export default MenuButton;
+export default MenuButtonSection;
 
 
 

@@ -4,16 +4,16 @@ import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
 
 import ContentPlaceholder from '../../ui/ContentPlaceholder/ContentPlaceholder';
-import MenuButton from '../menu-components/MenuButton';
+import MenuButtonSection from '../menu-components/MenuButtonSection';
 import MenuSearch from '../menu-components/MenuSearch';
 import CustomButton from '../../ui/CustomButton/CustomButton';
-import MenuArticles from '../menu-components/MenuArticles';
+import MenuContainerArticles from '../menu-components/MenuContainerArticles';
 
 
 
 const ModalMenu = () => {
 
-  const { activeSection, setActiveSection, sectionData, setSectionData, userData, setUserData, usersData, setUsersData, activeType, setActiveType, selectedSection, setSelectedSection } = useContext(ModalContext);
+  const { activeSection, setActiveSection, sectionData, setSectionData, userData, setUserData, usersData, setUsersData, activeType, setActiveType, selectedSection, setSelectedSection, setArticleNewParent } = useContext(ModalContext);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,6 +58,7 @@ const ModalMenu = () => {
     if (selectedSection === section) {
       setSelectedSection(null);
       setActiveType('section');
+      setActiveSection('home');
       console.log(null);
     } else {
       setSelectedSection(section);
@@ -68,6 +69,10 @@ const ModalMenu = () => {
 
   };
 
+  const handleCreateArticleClick = () => {
+    setArticleNewParent(null);
+    setActiveSection('create-article');
+  };
 
   if (isLoading) {
     return (
@@ -93,14 +98,14 @@ const ModalMenu = () => {
         {filteredSections.map((section, index) => (
           (selectedSection === section || selectedSection === null) ? (
             <div key={index}>
-              <MenuButton
+              <MenuButtonSection
                 id={section.id}
                 name={section.name}
                 handleClick={handleClick}
                 section={section}
                 mode={selectedSection === section ? 'active' : 'default'}
               />
-              {selectedSection === section ? <MenuArticles sectionId={section.id}/> : null}
+              {selectedSection === section ? <MenuContainerArticles sectionId={section.id}/> : null}
             </div>
           ) : null
         ))}
@@ -125,7 +130,7 @@ const ModalMenu = () => {
             text='Создать статью'
             padding={'7px'}
             color='green'
-            onClick={() => setActiveSection('create-article')}
+            onClick={handleCreateArticleClick}
             style={{
               width: '100%',
               opacity: 1,

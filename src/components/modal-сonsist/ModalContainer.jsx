@@ -5,14 +5,15 @@ import { ModalContext } from '../../contexts/ModalContext';
 import SectionPage from '../container-pages/SectionPage';
 import ArticlePage from '../container-pages/ArticlePage';
 import SectionCreate from '../container-pages/section-components/SectionCreate';
-import ArticleCreate from '../container-pages/article-components/ArticleCreate';
 import Home from '../container-pages/Home';
+import ArticleCreate from '../container-pages/article-components/ArticleCreate';
+import ArticleEdit from '../container-pages/article-components/ArticleEdit';
 
 
 
 const ModalContainer = () => {
 
-  const { activeSection, setActiveSection } = useContext(ModalContext);
+  const { activeSection, setActiveSection, articleNewParent, setArticleNewParent } = useContext(ModalContext);
 
   const renderContainer = () => {
     switch (activeSection) {
@@ -28,6 +29,12 @@ const ModalContainer = () => {
 
       case 'create-article':
         return <ArticleCreate />;
+
+      case 'edit-article':
+        return <ArticleEdit />;
+
+      case 'home':
+        return <Home />;
 
       default:
         return <Home />;
@@ -50,7 +57,7 @@ export default ModalContainer;
 const ContainerStyled = styled.div`
   background-color: #FFFFFF;
   flex: 78%;
-  padding: 25px;
+  padding: 20px;
   box-sizing: border-box;
   height: 100%;
 `;

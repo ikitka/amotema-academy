@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
 
-const MenuArticleButton = ({ name, id, level, hasChildren, isExpanded, onToggleExpand }) => {
-  const { selectedArticle, setSelectedArticle, setActiveSection } = useContext(ModalContext);
+const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleExpand }) => {
+  const { selectedArticle, setSelectedArticle, setActiveSection, setArticleNewParent } = useContext(ModalContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
 
 
@@ -20,6 +20,12 @@ const MenuArticleButton = ({ name, id, level, hasChildren, isExpanded, onToggleE
 
   const handleContainerMouseLeave = () => {
     setButtonVisible(false);
+  };
+
+  const handleClickAdditional = async (e) => {
+    e.stopPropagation();
+    setArticleNewParent({name: name, id: id});
+    setActiveSection('create-article');
   };
   
 
@@ -39,12 +45,12 @@ const MenuArticleButton = ({ name, id, level, hasChildren, isExpanded, onToggleE
     >
       <IconContainer style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{hasChildren ? (isExpanded ? '=' : '>') : '•'}</IconContainer>
       <Text style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{name}</Text>
-      <Button visible={isButtonVisible} onClick={(e) => e.stopPropagation()}>+</Button>
+      <Button visible={isButtonVisible} onClick={handleClickAdditional}>+</Button>
     </Container>
   );
 };
 
-export default MenuArticleButton;
+export default MenuButtonArticle;
 
 
 
@@ -83,7 +89,6 @@ const IconContainer = styled.div`
 const Text = styled.div`
   flex: 1;
   font-size: 14px;
-  color: #000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -102,6 +107,6 @@ const Button = styled.div`
   
   &:hover {
     opacity: 1;
-    background-color: #DBDEE0;
+    background-color: #c6c9ca;
   }
 `;

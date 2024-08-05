@@ -76,7 +76,7 @@ const ArticlePage = () => {
   return (
     <>
       {selectedArticle && 
-      <div>
+      <ContainerArticle>
         <ArticleHeader article={selectedArticle} />
         
         <ContainerStyled>
@@ -111,10 +111,18 @@ const ArticlePage = () => {
             }}
           />
         </ContainerStyled>
-      </div>
+      </ContainerArticle>
       }
     </>
   )
 };
 
 export default ArticlePage;
+
+
+
+const ContainerArticle = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;

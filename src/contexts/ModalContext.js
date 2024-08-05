@@ -15,6 +15,8 @@ const ModalProvider = ({ children }) => {
   const [selectedArticle, setSelectedArticle] = useState({});
   const [selectedSection, setSelectedSection] = useState(null);
 
+  const [articleNewParent, setArticleNewParent] = useState({});
+
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
@@ -34,6 +36,23 @@ const ModalProvider = ({ children }) => {
     });
   };
 
+  const deleteArticle = (articleId) => {
+    const removeArticleRecursively = (articles, id) => {
+      return articles
+        .filter((article) => article.id !== id)
+        .map((article) => ({
+          ...article,
+          children: removeArticleRecursively(article.children || [], id),
+        }));
+    };
+  
+    setArticleData((prevArticles) => {
+      const updatedArticles = removeArticleRecursively(prevArticles, articleId);
+      console.log('Updated Articles:', updatedArticles);
+      return updatedArticles;
+    });
+  };
+
   return (
     <ModalContext.Provider
       value={{
@@ -42,7 +61,8 @@ const ModalProvider = ({ children }) => {
         sectionData, setSectionData,
         articleData, setArticleData,
         
-        addArticle, addSection,
+        addArticle, deleteArticle,
+        addSection,
         
         userData, setUserData,
         usersData, setUsersData,
@@ -50,7 +70,9 @@ const ModalProvider = ({ children }) => {
         selectedArticle, setSelectedArticle,
         selectedSection, setSelectedSection,
         
-        activeType, setActiveType
+        activeType, setActiveType,
+
+        articleNewParent, setArticleNewParent
       }}
     >
       {children}

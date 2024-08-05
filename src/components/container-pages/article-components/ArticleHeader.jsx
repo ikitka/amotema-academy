@@ -9,7 +9,7 @@ import api from '../../../api/api';
 
 const ArticleHeader = ({ article }) => {
 
-  const { usersData } = useContext(ModalContext);
+  const { setActiveSection, usersData, deleteArticle } = useContext(ModalContext);
 
   const user = takeAmoUser(article.author);
   const userName = user ? user.title : 'Имя не известно';
@@ -18,7 +18,12 @@ const ArticleHeader = ({ article }) => {
   const deleteArticleThere = async (id) => {
     console.log(id);
     const response = await api.deleteArticle(id);
-    console.log(response);
+
+    if (response) {
+      console.log(response);
+      deleteArticle(id);
+      setActiveSection('section');
+    }
   }
 
   return (
@@ -44,7 +49,7 @@ const ArticleHeader = ({ article }) => {
           text='Редактировать'
           padding={'4px 10px'}
           color='white'
-          onClick={() => setActiveSection('create-article')}
+          onClick={() => setActiveSection('edit-article')}
           style={{
             opacity: 1,
             cursor: 'pointer',
@@ -69,7 +74,6 @@ const ArticleHeader = ({ article }) => {
           text='...'
           padding={'4px 4px'}
           color='white'
-          onClick={() => setActiveSection('create-article')}
           style={{
             opacity: 1,
             cursor: 'pointer',
@@ -107,7 +111,6 @@ const RightContainer = styled.div`
 
 const NameContainer = styled.div`
   width: 100%;
-  height: 100%;
   font-size: 21px;
   font-weight: bold;
 `;

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MenuArticleButton from './MenuArticleButton';
+import MenuButtonArticle from './MenuButtonArticle';
 import { ModalContext } from '../../contexts/ModalContext';
 import ContentPlaceholder from '../../ui/ContentPlaceholder/ContentPlaceholder';
 import api from '../../api/api';
 
-const MenuArticles = ({ sectionId }) => {
+const MenuContainerArticles = ({ sectionId }) => {
   const { articleData, setArticleData, userData, setUserData } = useContext(ModalContext);
   const [isLoading, setIsLoading] = useState(true);
   const [expandedArticles, setExpandedArticles] = useState(new Set());
@@ -52,7 +52,7 @@ const MenuArticles = ({ sectionId }) => {
 
       return (
         <React.Fragment key={article.id}>
-          <MenuArticleButton 
+          <MenuButtonArticle 
             name={article.name}
             id={article.id}
             level={level}
@@ -73,4 +73,4 @@ const MenuArticles = ({ sectionId }) => {
   );
 };
 
-export default MenuArticles;
+export default MenuContainerArticles;
