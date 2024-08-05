@@ -8,6 +8,7 @@ import MenuButtonSection from '../menu-components/MenuButtonSection';
 import MenuSearch from '../menu-components/MenuSearch';
 import CustomButton from '../../ui/CustomButton/CustomButton';
 import MenuContainerArticles from '../menu-components/MenuContainerArticles';
+import ModalHeader from './ModalHeader';
 
 
 
@@ -165,7 +166,7 @@ const MenuStyled = styled.div`
 
 const SearchContainer = styled.div`
   flex-shrink: 0;
-  height: 50px;
+  height: 40px;
 `;
 
 const MenuContainer = styled.div`

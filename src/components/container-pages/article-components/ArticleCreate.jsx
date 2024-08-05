@@ -52,43 +52,8 @@ const ArticleCreate = () => {
     }
   }
 
-
-
   if (isLoading) {
-    return (
-      <>
-        <ContainerStyled>
-          {/* Первый контейнер */}
-          <TopContainer>
-            <ContentPlaceholder type="menu-item" />
-            <ButtonGroup>
-              <ContentPlaceholder type="menu-item" />
-            </ButtonGroup>
-          </TopContainer>
-
-          {/* Второй контейнер */}
-          <MiddleContainer>
-            <ContentPlaceholder type="menu-item" />
-            <ContentPlaceholder type="menu-item" />
-            <ContentPlaceholder type="menu-item" />
-          </MiddleContainer>
-
-          {/* Третий контейнер */}
-          <BottomContainer>
-            <LeftContainer>
-              <ContentPlaceholder type="menu-item" />
-              <ContentPlaceholder type="menu-item" />
-              <ContentPlaceholder type="menu-item" />
-            </LeftContainer>
-            <RightContainer>
-              <ContentPlaceholder type="menu-item" />
-              <ContentPlaceholder type="menu-item" />
-              <ContentPlaceholder type="menu-item" />
-            </RightContainer>
-          </BottomContainer>
-        </ContainerStyled>
-      </>
-    );
+    return <LoadingPlaceholder />;
   }
 
   const copyCodeToClipboard = async (code) => {
@@ -106,18 +71,20 @@ const ArticleCreate = () => {
         {/* Первый контейнер */}
         <TopContainer>
           {selectedSection &&
-            <p style={{ fontSize: '13px', marginBottom: '3px'}}>{`${selectedSection.name}`} {articleNewParent && ` > ${articleNewParent.name}`}</p>
+            <TextPath>{`${selectedSection.name}`} {articleNewParent && ` > ${articleNewParent.name}`}</TextPath>
           }
-          <InputName
-            type="text"
-            placeholder="Название статьи"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <ButtonGroup>
-            <ButtonSave onClick={handleCreateArticle}>Сохранить</ButtonSave>
-            <ButtonCancel>Отменить</ButtonCancel>
-          </ButtonGroup>
+          <ContainerInput>
+            <InputName
+              type="text"
+              placeholder="Название статьи"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <ButtonGroup>
+              <ButtonSave onClick={handleCreateArticle}>Сохранить</ButtonSave>
+              <ButtonCancel>Отменить</ButtonCancel>
+            </ButtonGroup>
+          </ContainerInput>
         </TopContainer>
 
         {/* Второй контейнер */}
@@ -199,6 +166,49 @@ export default ArticleCreate;
 
 
 
+
+
+
+
+const LoadingPlaceholder = () => {
+  return (
+    <ContainerStyled>
+      {/* Первый контейнер */}
+      <TopContainer>
+        <ContentPlaceholder type="menu-item" />
+        <ButtonGroup>
+          <ContentPlaceholder type="menu-item" />
+        </ButtonGroup>
+      </TopContainer>
+
+      {/* Второй контейнер */}
+      <MiddleContainer>
+        <ContentPlaceholder type="menu-item" />
+        <ContentPlaceholder type="menu-item" />
+        <ContentPlaceholder type="menu-item" />
+      </MiddleContainer>
+
+      {/* Третий контейнер */}
+      <BottomContainer>
+        <LeftContainer>
+          <ContentPlaceholder type="menu-item" />
+          <ContentPlaceholder type="menu-item" />
+          <ContentPlaceholder type="menu-item" />
+        </LeftContainer>
+        <RightContainer>
+          <ContentPlaceholder type="menu-item" />
+          <ContentPlaceholder type="menu-item" />
+          <ContentPlaceholder type="menu-item" />
+        </RightContainer>
+      </BottomContainer>
+    </ContainerStyled>
+  );
+};
+
+
+
+
+
 const ContainerStyled = styled.div`
   display: flex;
   flex-direction: column;
@@ -211,9 +221,24 @@ const TopContainer = styled.div`
   margin-bottom: 5px;
 `;
 
+const ContainerInput = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
 const ButtonGroup = styled.div`
-  display: inline;
-  float: inline-end;
+  display: inline-flex;
+  flex-shrink: 0;
+`;
+
+const InputName = styled.input`
+  flex: 1;
+  margin-top: 4px;
+  padding: 8px 5px;
+  font-size: 18px;
+  background-color: #f0f0f0;
+  margin-right: 10px; /* Добавляем небольшой отступ справа */
 `;
 
 const MiddleContainer = styled.div`
@@ -301,14 +326,10 @@ const CodeContainer = styled.div`
 
 
 
-
-
-const InputName = styled.input`
-  width: 50%;
-  margin-top: 4px;
-  padding: 8px 5px;
-  font-size: 18px;
-  background-color: #f0f0f0;;
+const TextPath = styled.p`
+  font-size: 13px;
+  margin-bottom: 7px;
+  color: #7e7e7e;
 `;
 
 const InputName2 = styled.input`

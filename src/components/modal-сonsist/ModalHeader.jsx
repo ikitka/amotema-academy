@@ -18,10 +18,14 @@ export default ModalHeader;
 
 // Styles
 const HeaderStyled = styled.div`
+
+  margin: -15px;
+
   background-color: #FFFFFF;
   display: flex;
   align-items: center;
-  padding: 25px;
+  padding: 15px;
+  padding-left: 20px;
   box-sizing: border-box;
   border-bottom: 1px solid #E4E7ED;
 

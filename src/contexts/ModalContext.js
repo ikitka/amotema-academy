@@ -20,6 +20,7 @@ const ModalProvider = ({ children }) => {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
+  // для добавления секции в дерево
   const addSection = (newSection) => {
     setSectionData((prevSections) => {
       const updatedSections = [...prevSections, newSection];
@@ -28,6 +29,7 @@ const ModalProvider = ({ children }) => {
     });
   };
 
+  // для добавления статьи в дерево
   const addArticle = (newArticle) => {
     setArticleData((prevArticles) => {
       const updatedArticles = [...prevArticles, newArticle];
@@ -36,6 +38,7 @@ const ModalProvider = ({ children }) => {
     });
   };
 
+  // для удаления статьи и ее дочерних статей из дерева
   const deleteArticle = (articleId) => {
     const removeArticleRecursively = (articles, id) => {
       return articles
@@ -56,23 +59,23 @@ const ModalProvider = ({ children }) => {
   return (
     <ModalContext.Provider
       value={{
-        isModalOpen, openModal, closeModal,
-        activeSection, setActiveSection,
-        sectionData, setSectionData,
-        articleData, setArticleData,
+        isModalOpen, openModal, closeModal, // для открытия и закрытия модального окна
+        activeSection, setActiveSection,    // для изменения активного раздела
+        sectionData, setSectionData,        // данные по разделам
+        articleData, setArticleData,        // данные по статьям
         
-        addArticle, deleteArticle,
-        addSection,
+        addArticle, deleteArticle,  // для добавления и удаления статьи
+        addSection,                 // для добавления и удаления секции
         
-        userData, setUserData,
-        usersData, setUsersData,
+        userData, setUserData,      // данные по пользователю
+        usersData, setUsersData,    // данные по пользователям
         
-        selectedArticle, setSelectedArticle,
-        selectedSection, setSelectedSection,
+        selectedArticle, setSelectedArticle,  // выбранная сейчас статья
+        selectedSection, setSelectedSection,  // выбранный сейчас раздел
         
-        activeType, setActiveType,
+        activeType, setActiveType,            // для отображения кнопки создания статьи или раздела
 
-        articleNewParent, setArticleNewParent
+        articleNewParent, setArticleNewParent // данные по родительской статье при добавлении новой статьи
       }}
     >
       {children}

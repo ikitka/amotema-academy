@@ -24,10 +24,7 @@ const Modal = () => {
   if (!isModalOpen) return null;
 
   return (
-    <ModalStyled>
-
-      <ModalHeader />
-      
+    <ModalStyled>      
       <ContainerBind>
         <ModalMenu />
         <ModalContainer />
@@ -60,5 +57,5 @@ const ModalStyled = styled.div`
 const ContainerBind = styled.div`
   flex-direction: initial;
   display: flex;
-  height: 91%;
+  height: 100%;
 `;

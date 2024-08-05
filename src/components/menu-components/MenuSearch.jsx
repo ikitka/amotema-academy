@@ -16,7 +16,7 @@ const MenuSearch = ({ sections, onSearch }) => {
     <div>
       <InputStyled 
         type="text" 
-        placeholder="Search..." 
+        placeholder="Поиск по названию..." 
         value={searchTerm} 
         onChange={handleChange} 
       />
@@ -32,9 +32,9 @@ export default MenuSearch;
 // Styles
 const InputStyled = styled.input`
   width: 100%;
-  padding: 7px;
+  padding: 4px 10px;
   box-sizing: border-box;
   border-radius: 7px;
   border: 1px solid #E4E7ED;
-  margin-bottom: 15px;
+  background-color: #E4E7ED;
 `;
