@@ -2,27 +2,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { ModalContext } from '../../contexts/ModalContext';
 
-import SectionPage from '../container-pages/SectionPage';
-import ArticlePage from '../container-pages/ArticlePage';
-import SectionCreate from '../container-pages/section-components/SectionCreate';
+import SectionShow from '../container-pages/section-components/SectionShow/SectionShow';
+import SectionCreate from '../container-pages/section-components/SectionCreate/SectionCreate';
 import Home from '../container-pages/Home';
-import ArticleCreate from '../container-pages/article-components/ArticleCreate';
+
+import ArticleShow from '../container-pages/article-components/ArticleShow/ArticleShow';
+import ArticleCreate from '../container-pages/article-components/ArticleCreate/ArticleCreate';
 import ArticleEdit from '../container-pages/article-components/ArticleEdit';
 
 
 
 const ModalContainer = () => {
 
-  const { activeSection, setActiveSection, articleNewParent, setArticleNewParent } = useContext(ModalContext);
+  const { activeContainer } = useContext(ModalContext);
 
   const renderContainer = () => {
-    switch (activeSection) {
+    switch (activeContainer) {
 
-      case 'article':
-        return <ArticlePage />;
+      case 'show-article':
+        return <ArticleShow />;
 
-      case 'section':
-        return <SectionPage />;
+      case 'show-section':
+        return <SectionShow />;
 
       case 'create-section':
         return <SectionCreate />;

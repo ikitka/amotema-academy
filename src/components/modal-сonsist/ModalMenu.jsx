@@ -8,13 +8,12 @@ import MenuButtonSection from '../menu-components/MenuButtonSection';
 import MenuSearch from '../menu-components/MenuSearch';
 import CustomButton from '../../ui/CustomButton/CustomButton';
 import MenuContainerArticles from '../menu-components/MenuContainerArticles';
-import ModalHeader from './ModalHeader';
 
 
 
 const ModalMenu = () => {
 
-  const { activeSection, setActiveSection, sectionData, setSectionData, userData, setUserData, usersData, setUsersData, activeType, setActiveType, selectedSection, setSelectedSection, setArticleNewParent } = useContext(ModalContext);
+  const { setActiveContainer, sectionData, setSectionData, userData, setUserData, usersData, setUsersData, activeType, setActiveType, selectedSection, setSelectedSection, setArticleNewParent } = useContext(ModalContext);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -59,20 +58,18 @@ const ModalMenu = () => {
     if (selectedSection === section) {
       setSelectedSection(null);
       setActiveType('section');
-      setActiveSection('home');
-      console.log(null);
+      setActiveContainer('home');
     } else {
       setSelectedSection(section);
       setActiveType('article');
-      console.log(section);
-      setActiveSection('section');
+      setActiveContainer('show-section');
     }
 
   };
 
   const handleCreateArticleClick = () => {
     setArticleNewParent(null);
-    setActiveSection('create-article');
+    setActiveContainer('create-article');
   };
 
   if (isLoading) {
@@ -118,7 +115,7 @@ const ModalMenu = () => {
             text='Создать раздел'
             padding={'7px'}
             color='green'
-            onClick={() => setActiveSection('create-section')}
+            onClick={() => setActiveContainer('create-section')}
             style={{
               width: '100%',
               opacity: 1,

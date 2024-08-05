@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import api from '../../../api/api';
-import { ModalContext } from '../../../contexts/ModalContext';
+import api from '../../../../api/api';
+import { ModalContext } from '../../../../contexts/ModalContext';
 
 // Стили для контейнера формы
 const FormContainer = styled.div`

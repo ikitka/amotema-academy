@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 
-const MenuSearch = ({ sections, onSearch }) => {
+const MenuSearch = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (event) => {

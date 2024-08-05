@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
-import CustomButton from '../../../ui/CustomButton/CustomButton';
-import takeAmoUser from '../../../handlers/takeAmoUser';
-import dataConverter from '../../../handlers/dataConverter';
-import { ModalContext } from '../../../contexts/ModalContext';
-import api from '../../../api/api';
+import CustomButton from '../../../../../ui/CustomButton/CustomButton';
+import takeAmoUser from '../../../../../handlers/takeAmoUser';
+import dataConverter from '../../../../../handlers/dataConverter';
+import { ModalContext } from '../../../../../contexts/ModalContext';
+import api from '../../../../../api/api';
 
 
 const ArticleHeader = ({ article }) => {

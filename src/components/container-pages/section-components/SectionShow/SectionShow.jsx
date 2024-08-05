@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { ModalContext } from '../../contexts/ModalContext';
-import Home from './Home';
+import { ModalContext } from '../../../../contexts/ModalContext';
 
 
-const SectionPage = () => {
+import Home from '../../Home';
+
+
+const SectionShow = () => {
 
   const { selectedSection } = useContext(ModalContext);
 
@@ -21,7 +23,7 @@ const SectionPage = () => {
   )
 };
 
-export default SectionPage;
+export default SectionShow;
 
 
 

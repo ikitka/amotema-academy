@@ -1,14 +1,85 @@
 import React, { useContext, useEffect, useState } from 'react'
-import api from '../../api/api';
-import { ModalContext } from '../../contexts/ModalContext';
+import styled from 'styled-components';
+import { ModalContext } from '../../../../contexts/ModalContext';
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import styled from 'styled-components';
-import ArticleHeader from './article-components/ArticleHeader';
+
+import ArticleHeader from './components/ArticleHeader';
+
+
+
+
+const ArticleShow = () => {
+
+  const { selectedArticle } = useContext(ModalContext);
+
+  const copyCodeToClipboard = async (code) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      alert('Код скопирован в буфер обмена!');
+    } catch (err) {
+      alert('Не удалось скопировать код');
+    }
+  };
+  
+  return (
+    <>
+      {selectedArticle && 
+      <ContainerArticle>
+        
+        <ArticleHeader article={selectedArticle} />
+        
+        <ContainerStyled>
+          <ReactMarkdown
+            children={selectedArticle.content}
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+            components={{
+              code({ node, inline, className, children, ...props }) {
+                if (inline) {
+                  return <code className={className} {...props}>{children}</code>;
+                }
+                
+                const language = /language-(\w+)/.exec(className || '')?.[1] || 'text';
+                const codeString = String(children).replace(/\n$/, '');
+  
+                return (
+                  <CodeContainer>
+                    <SyntaxHighlighter
+                      {...props}
+                      PreTag="div"
+                      language={language}
+                      style={a11yDark}
+                      children={codeString}
+                    />
+                    <CopyButton onClick={() => copyCodeToClipboard(codeString)}>
+                      Копировать
+                    </CopyButton>
+                  </CodeContainer>
+                );
+              }
+            }}
+          />
+        </ContainerStyled>
+      </ContainerArticle>
+      }
+    </>
+  )
+};
+
+export default ArticleShow;
+
+
+
+const ContainerArticle = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
 
 const ContainerStyled = styled.div`
 
@@ -58,71 +129,4 @@ const CopyButton = styled.button`
 const CodeContainer = styled.div`
   position: relative;
   margin-bottom: 1em;
-`;
-
-const ArticlePage = () => {
-
-  const { selectedArticle } = useContext(ModalContext);
-
-  const copyCodeToClipboard = async (code) => {
-    try {
-      await navigator.clipboard.writeText(code);
-      alert('Код скопирован в буфер обмена!');
-    } catch (err) {
-      alert('Не удалось скопировать код');
-    }
-  };
-  
-  return (
-    <>
-      {selectedArticle && 
-      <ContainerArticle>
-        <ArticleHeader article={selectedArticle} />
-        
-        <ContainerStyled>
-          <ReactMarkdown
-            children={selectedArticle.content}
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                if (inline) {
-                  return <code className={className} {...props}>{children}</code>;
-                }
-                
-                const language = /language-(\w+)/.exec(className || '')?.[1] || 'text';
-                const codeString = String(children).replace(/\n$/, '');
-  
-                return (
-                  <CodeContainer>
-                    <SyntaxHighlighter
-                      {...props}
-                      PreTag="div"
-                      language={language}
-                      style={a11yDark}
-                      children={codeString}
-                    />
-                    <CopyButton onClick={() => copyCodeToClipboard(codeString)}>
-                      Копировать
-                    </CopyButton>
-                  </CodeContainer>
-                );
-              }
-            }}
-          />
-        </ContainerStyled>
-      </ContainerArticle>
-      }
-    </>
-  )
-};
-
-export default ArticlePage;
-
-
-
-const ContainerArticle = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 `;

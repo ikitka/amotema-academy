@@ -4,7 +4,7 @@ const ModalContext = createContext();
 
 const ModalProvider = ({ children }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeContainer, setActiveContainer] = useState('home');
   const [sectionData, setSectionData] = useState({});
   const [articleData, setArticleData] = useState({});
   const [userData, setUserData] = useState({});
@@ -59,10 +59,10 @@ const ModalProvider = ({ children }) => {
   return (
     <ModalContext.Provider
       value={{
-        isModalOpen, openModal, closeModal, // для открытия и закрытия модального окна
-        activeSection, setActiveSection,    // для изменения активного раздела
-        sectionData, setSectionData,        // данные по разделам
-        articleData, setArticleData,        // данные по статьям
+        isModalOpen, openModal, closeModal,     // для открытия и закрытия модального окна
+        activeContainer, setActiveContainer,    // для отображения нужно контейнера справа
+        sectionData, setSectionData,            // данные по разделам
+        articleData, setArticleData,            // данные по статьям
         
         addArticle, deleteArticle,  // для добавления и удаления статьи
         addSection,                 // для добавления и удаления секции

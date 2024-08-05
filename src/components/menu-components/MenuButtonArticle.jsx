@@ -4,14 +4,14 @@ import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
 
 const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleExpand }) => {
-  const { selectedArticle, setSelectedArticle, setActiveSection, setArticleNewParent } = useContext(ModalContext);
+  const { selectedArticle, setSelectedArticle, setActiveContainer, setArticleNewParent } = useContext(ModalContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
 
 
   const handleClick = async () => {
     const resArticle = await api.getArticle(id);
     setSelectedArticle(resArticle);
-    setActiveSection('article');
+    setActiveContainer('show-article');
   };
 
   const handleContainerMouseEnter = () => {
@@ -25,7 +25,7 @@ const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleE
   const handleClickAdditional = async (e) => {
     e.stopPropagation();
     setArticleNewParent({name: name, id: id});
-    setActiveSection('create-article');
+    setActiveContainer('create-article');
   };
   
 
