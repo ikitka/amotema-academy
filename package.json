@@ -11,6 +11,9 @@
   "dependencies": {
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
+    "@xenova/transformers": "^2.17.2",
+    "https-proxy-agent": "^7.0.5",
+    "openai": "^4.54.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
@@ -19,7 +22,8 @@
     "rehype-highlight": "^7.0.0",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "babel-loader": "^9.1.3",

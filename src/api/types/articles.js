@@ -50,6 +50,25 @@ const articles = {
     }
   },
 
+  saveArticle: async (resaveArticle) => {
+    try {
+      const response = await fetch(`${config.url}articles/${resaveArticle.id}`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(resaveArticle)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save article');
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error save article:', error);
+    }
+  },
+
   deleteArticle: async (articleId) => {
     try {
       const response = await fetch(`${config.url}articles/${articleId}`, {

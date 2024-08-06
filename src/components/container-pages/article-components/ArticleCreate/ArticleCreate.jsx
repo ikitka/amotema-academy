@@ -65,6 +65,8 @@ const ArticleCreate = () => {
       <CreateTools
         viewState={viewState}
         setViewState={setViewState}
+        text={text}
+        setText={setText}
       />
       
       <ContentEditor

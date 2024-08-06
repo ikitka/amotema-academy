@@ -38,6 +38,20 @@ const ModalProvider = ({ children }) => {
     });
   };
 
+  // для обновления статьи в дереве после сохранения изменений
+  const updateArticle = (updatedArticle) => {
+    setArticleData((prevArticles) => {
+      const updatedArticles = prevArticles.map((article) => {
+        if (article.id === updatedArticle.id) {
+          return updatedArticle;
+        }
+        return article;
+      });
+      console.log('Updated Articles:', updatedArticles);
+      return updatedArticles;
+    });
+  };
+
   // для удаления статьи и ее дочерних статей из дерева
   const deleteArticle = (articleId) => {
     const removeArticleRecursively = (articles, id) => {
@@ -64,8 +78,8 @@ const ModalProvider = ({ children }) => {
         sectionData, setSectionData,            // данные по разделам
         articleData, setArticleData,            // данные по статьям
         
-        addArticle, deleteArticle,  // для добавления и удаления статьи
-        addSection,                 // для добавления и удаления секции
+        addArticle, updateArticle, deleteArticle,  // для добавления, обновления и удаления статьи
+        addSection,                                // для добавления и удаления секции
         
         userData, setUserData,      // данные по пользователю
         usersData, setUsersData,    // данные по пользователям

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const CreateTools = ({ viewState, setViewState, text, setText }) => {
+const EditTools = ({ viewState, setViewState, text, setText }) => {
   const [history, setHistory] = useState([text]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -199,7 +199,7 @@ const CreateTools = ({ viewState, setViewState, text, setText }) => {
   );
 };
 
-export default CreateTools;
+export default EditTools;
 
 const MiddleContainer = styled.div`
   display: flex;

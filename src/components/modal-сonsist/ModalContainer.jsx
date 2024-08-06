@@ -8,7 +8,7 @@ import Home from '../container-pages/Home';
 
 import ArticleShow from '../container-pages/article-components/ArticleShow/ArticleShow';
 import ArticleCreate from '../container-pages/article-components/ArticleCreate/ArticleCreate';
-import ArticleEdit from '../container-pages/article-components/ArticleEdit';
+import ArticleEdit from '../container-pages/article-components/ArticleEdit/ArticleEdit';
 
 
 

@@ -1,15 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+// src/ArticleHeader.js
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import CustomButton from '../../../../../ui/CustomButton/CustomButton';
 import takeAmoUser from '../../../../../handlers/takeAmoUser';
 import dataConverter from '../../../../../handlers/dataConverter';
 import { ModalContext } from '../../../../../contexts/ModalContext';
 import api from '../../../../../api/api';
-
+import ModalDelete from '../../../../modal-сonsist/modals/ModalDelete';
 
 const ArticleHeader = ({ article }) => {
+  const { setActiveSection, deleteArticle, setActiveContainer } = useContext(ModalContext);
 
-  const { setActiveSection, usersData, deleteArticle } = useContext(ModalContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [articleIdToDelete, setArticleIdToDelete] = useState(null);
 
   const user = takeAmoUser(article.author);
   const userName = user ? user.title : 'Имя не известно';
@@ -22,75 +25,101 @@ const ArticleHeader = ({ article }) => {
     if (response) {
       console.log(response);
       deleteArticle(id);
-      setActiveSection('section');
+      setActiveContainer('show-section');
     }
   }
 
+  const handleArticleEdit = async (article) => {
+    setActiveContainer('edit-article');
+  }
+
+  const handleDeleteClick = (id) => {
+    setArticleIdToDelete(id);
+    setIsModalOpen(true);
+  }
+
+  const handleConfirmDelete = () => {
+    if (articleIdToDelete) {
+      deleteArticleThere(articleIdToDelete);
+      setArticleIdToDelete(null);
+      setIsModalOpen(false);
+    }
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setArticleIdToDelete(null);
+  }
+
   return (
-    <Container>
-      <LeftContainer>
-        <NameContainer>
-          {article.name}
-        </NameContainer>
-        <AuthorInfoContainer>
-          <AuthorImage src={userAvatar} alt="Author" />
-          <TextContainer>
-            <div style={{ marginBottom: '5px', fontSize: '13px' }}>
-              {userName}
-            </div>
-            <div style={{ fontSize: '13px' }}>
-              {dataConverter(article.date_update)}
-            </div>
-          </TextContainer>
-        </AuthorInfoContainer>
-      </LeftContainer>
-      <RightContainer>
-        <CustomButton
-          text='Редактировать'
-          padding={'4px 10px'}
-          color='white'
-          onClick={() => setActiveSection('edit-article')}
-          style={{
-            opacity: 1,
-            cursor: 'pointer',
-            border: '1px solid #bbbbbb',
-          }}
-        />
+    <>
+      <Container>
+        <LeftContainer>
+          <NameContainer>
+            {article.name}
+          </NameContainer>
+          <AuthorInfoContainer>
+            <AuthorImage src={userAvatar} alt="Author" />
+            <TextContainer>
+              <div style={{ marginBottom: '5px', fontSize: '13px' }}>
+                {userName}
+              </div>
+              <div style={{ fontSize: '13px' }}>
+                {dataConverter(article.date_update)}
+              </div>
+            </TextContainer>
+          </AuthorInfoContainer>
+        </LeftContainer>
+        <RightContainer>
+          <CustomButton
+            text='Редактировать'
+            padding={'4px 10px'}
+            color='white'
+            onClick={() => handleArticleEdit(article)}
+            style={{
+              opacity: 1,
+              cursor: 'pointer',
+              border: '1px solid #bbbbbb',
+            }}
+          />
 
-        <CustomButton
-          text='Удалить'
-          padding={'4px 10px'}
-          color='red'
-          onClick={() => deleteArticleThere(article.id)}
-          style={{
-            opacity: 1,
-            cursor: 'pointer',
-            border: '1px solid #bbbbbb',
-            marginLeft: '5px',
-          }}
-        />
+          <CustomButton
+            text='Удалить'
+            padding={'4px 10px'}
+            color='red'
+            onClick={() => handleDeleteClick(article.id)}
+            style={{
+              opacity: 1,
+              cursor: 'pointer',
+              border: '1px solid #bbbbbb',
+              marginLeft: '5px',
+            }}
+          />
 
-        <CustomButton
-          text='...'
-          padding={'4px 4px'}
-          color='white'
-          style={{
-            opacity: 1,
-            cursor: 'pointer',
-            border: '1px solid #bbbbbb',
-            marginLeft: '5px',
-          }}
-        />
-      </RightContainer>
-    </Container>
+          <CustomButton
+            text='...'
+            padding={'4px 4px'}
+            color='white'
+            style={{
+              opacity: 1,
+              cursor: 'pointer',
+              border: '1px solid #bbbbbb',
+              marginLeft: '5px',
+            }}
+          />
+        </RightContainer>
+      </Container>
+
+      <ModalDelete
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDelete}
+      />
+    </>
   );
 };
 
 export default ArticleHeader;
-
-
-
-
 
 const Container = styled.div`
   display: flex;
@@ -117,21 +146,21 @@ const NameContainer = styled.div`
 
 const AuthorInfoContainer = styled.div`
   display: flex;
-  align-items: flex-start; /* Выравнивание по верхнему краю */
+  align-items: flex-start;
   margin-top: 20px;
 `;
 
 const AuthorImage = styled.img`
-  width: 35px;            /* Ширина изображения */
-  height: 35px;           /* Высота изображения */
-  border-radius: 50%;     /* Округляем изображение */
-  margin-right: 10px;     /* Отступ справа для текста */
-  object-fit: cover;      /* Сохраняет пропорции и обрезает изображение, если оно не подходит по размеру */
-  display: block;         /* Убирает возможные пробелы под изображением */
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  display: block;
 `;
 
 const TextContainer = styled.div`
   display: flex;
-  flex-direction: column; /* Располагаем элементы по вертикали */
-  justify-content: center; /* Выравнивание по центру по вертикали */
+  flex-direction: column;
+  justify-content: center;
 `;
