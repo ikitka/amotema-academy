@@ -51,13 +51,24 @@ const ArticleHeader = ({ article }) => {
     setArticleIdToDelete(null);
   }
 
+  const handleGetStats = (text) => {
+    let cleanedTextForWords = text.replace(/[^a-zA-Zа-яА-Я0-9\s]/g, '');
+    let charCount = cleanedTextForWords.length;
+    let wordCount = cleanedTextForWords.trim().split(/\s+/).length;
+
+    return 'Символы: ' + charCount + ' , Слова: ' + wordCount;
+  }
+
   return (
     <>
       <Container>
+        
         <LeftContainer>
+          
           <NameContainer>
             {article.name}
           </NameContainer>
+
           <AuthorInfoContainer>
             <AuthorImage src={userAvatar} alt="Author" />
             <TextContainer>
@@ -69,7 +80,9 @@ const ArticleHeader = ({ article }) => {
               </div>
             </TextContainer>
           </AuthorInfoContainer>
+
         </LeftContainer>
+
         <RightContainer>
           <CustomButton
             text='Редактировать'
@@ -96,17 +109,8 @@ const ArticleHeader = ({ article }) => {
             }}
           />
 
-          <CustomButton
-            text='...'
-            padding={'4px 4px'}
-            color='white'
-            style={{
-              opacity: 1,
-              cursor: 'pointer',
-              border: '1px solid #bbbbbb',
-              marginLeft: '5px',
-            }}
-          />
+          <div style={{ fontSize: '13px', display: 'block', marginTop: '10px', textAlign: 'end' }}>{handleGetStats(article.content)}</div>
+
         </RightContainer>
       </Container>
 

@@ -26,6 +26,7 @@ const ArticleShow = () => {
     }
   };
   
+  
   return (
     <>
       {selectedArticle && 
@@ -49,6 +50,7 @@ const ArticleShow = () => {
   
                 return (
                   <CodeContainer>
+                    
                     <SyntaxHighlighter
                       {...props}
                       PreTag="div"
@@ -72,8 +74,6 @@ const ArticleShow = () => {
 };
 
 export default ArticleShow;
-
-
 
 const ContainerArticle = styled.div`
   display: flex;
@@ -104,6 +104,139 @@ const ContainerStyled = styled.div`
 
   em {
     font-style: italic;
+  }
+
+  ol {
+    margin: 20px 0; /* Отступы сверху и снизу */
+    padding-left: 20px; /* Отступ слева для маркеров списка */
+    list-style-type: decimal; /* Включаем цифры для списка */
+    font-size: 16px; /* Размер шрифта */
+  }
+
+  li {
+    margin-bottom: 10px; /* Отступ между пунктами списка */
+  }
+
+  blockquote {
+    margin: 20px 0; /* Отступы сверху и снизу */
+    padding: 10px 20px; /* Внутренний отступ для текста */
+    border-left: 5px solid #ccc; /* Линия слева */
+    background-color: #f9f9f9; /* Легкий фон для блока */
+    font-style: italic; /* Курсивный шрифт для цитаты */
+  }
+
+  blockquote p {
+    margin: 0; /* Убираем отступы у параграфа внутри blockquote */
+    font-size: 16px; /* Размер шрифта */
+  }
+
+  table {
+    width: 100%; /* Таблица занимает всю ширину контейнера */
+    border-collapse: collapse; /* Убираем двойные границы между ячейками */
+    margin: 20px 0; /* Отступы сверху и снизу */
+    font-size: 16px; /* Размер шрифта */
+  }
+
+  th, td {
+    padding: 10px; /* Внутренние отступы у ячеек */
+    border: 1px solid #ccc; /* Граница для всех ячеек */
+  }
+
+  th {
+    background-color: #f5f5f5; /* Легкий фон для заголовков столбцов */
+    font-weight: bold; /* Жирный шрифт для заголовков */
+  }
+
+  td {
+    text-align: left; /* Выравнивание текста по левому краю по умолчанию */
+  }
+
+  th:nth-child(2), td:nth-child(2) {
+    text-align: center; /* Выравнивание по центру для второго столбца */
+  }
+
+  th:nth-child(3), td:nth-child(3) {
+    text-align: right; /* Выравнивание по правому краю для третьего столбца */
+  }
+
+  a {
+    color: #007BFF; /* Цвет ссылок */
+    text-decoration: underline; /* Подчеркивание для ссылок */
+    cursor: pointer; /* Курсор указателя */
+  }
+
+  a:hover {
+    color: #0056b3; /* Темнее при наведении */
+  }
+
+  img {
+    max-width: 100%; /* Изображение не выходит за пределы контейнера */
+    height: auto; /* Автоматическая настройка высоты */
+    display: block; /* Убирает отступы снизу */
+    margin: 20px 0; /* Отступы сверху и снизу */
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    margin-top: 18px;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    margin-top: 16px;
+  }
+
+  h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 14px;
+    margin-top: 14px;
+  }
+
+  h5 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    margin-top: 12px;
+  }
+
+  h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  blockquote blockquote {
+    margin-left: 20px;
+    border-left: 3px solid #bbb; /* Более тонкая граница для вложенных цитат */
+  }
+
+  ul {
+    margin: 20px 0; /* Отступы сверху и снизу */
+    padding-left: 20px; /* Отступ слева для маркеров списка */
+    list-style-type: disc; /* Маркеры в виде дисков */
+    font-size: 16px; /* Размер шрифта */
+  }
+
+  ul ul {
+    margin-left: 20px; /* Дополнительный отступ для вложенных списков */
+    list-style-type: circle; /* Изменяем стиль маркеров для вложенных списков */
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc; /* Цвет линии */
+    margin: 20px 0; /* Отступы сверху и снизу */
+  }
+
+  p {
+    max-width: 1400px;
   }
 
 `;

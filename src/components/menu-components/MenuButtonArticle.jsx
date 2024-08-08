@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
+import ContextMenu from '../../ui/ContextMenu/ContextMenu';
 
 const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleExpand }) => {
   const { selectedArticle, setSelectedArticle, setActiveContainer, setArticleNewParent } = useContext(ModalContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
-
+  const [menuPosition, setMenuPosition] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
 
   const handleClick = async () => {
     const resArticle = await api.getArticle(id);
@@ -27,35 +29,55 @@ const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleE
     setArticleNewParent({name: name, id: id});
     setActiveContainer('create-article');
   };
-  
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+
+    setMenuItems([
+      { label: 'Создать подстатью', onClick: () => console.log('Underarticle clicked') },
+      { label: 'Редактировать', onClick: () => console.log('Edit clicked') },
+      { label: 'Удалить', onClick: () => console.log('Delete clicked') },
+    ]);
+
+    setMenuPosition({ x: event.pageX - 65, y: event.pageY });
+  };
+
+  const handleCloseMenu = () => {
+    setMenuPosition(null);
+  };
 
   return (
-    <Container
-      onMouseEnter={handleContainerMouseEnter}
-      onMouseLeave={handleContainerMouseLeave}
-      onClick={(e) => {
-        e.stopPropagation();
-        handleClick();
-        if (hasChildren) {
-          onToggleExpand();
-        }
-      }}
-      style={{ marginLeft: `${level * 20}px` }}
-      isSelected={selectedArticle && selectedArticle.id === id}
-    >
-      <IconContainer style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{hasChildren ? (isExpanded ? '=' : '>') : '•'}</IconContainer>
-      <Text style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{name}</Text>
-      <Button visible={isButtonVisible} onClick={handleClickAdditional}>+</Button>
-    </Container>
+    <div>
+      <Container
+        onMouseEnter={handleContainerMouseEnter}
+        onMouseLeave={handleContainerMouseLeave}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick();
+          if (hasChildren) {
+            onToggleExpand();
+          }
+        }}
+        onContextMenu={handleContextMenu} // Добавляем обработчик события правого клика
+        style={{ marginLeft: `${level * 20}px` }}
+        isSelected={selectedArticle && selectedArticle.id === id}
+      >
+        <IconContainer style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{hasChildren ? (isExpanded ? '=' : '>') : '•'}</IconContainer>
+        <Text style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{name}</Text>
+        <Button visible={isButtonVisible} onClick={handleClickAdditional}>+</Button>
+      </Container>
+      {menuPosition && (
+        <ContextMenu
+          items={menuItems}
+          position={menuPosition}
+          onClose={handleCloseMenu}
+        />
+      )}
+    </div>
   );
 };
 
 export default MenuButtonArticle;
-
-
-
-
-
 
 // Styles
 const Container = styled.div`

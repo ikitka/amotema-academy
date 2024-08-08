@@ -29,14 +29,14 @@ const ModalMenu = () => {
 
   const handleData = async () => {
     // получаем пользователя (и его права)
-    const resUser = await api.getUser();
-    setUserData(resUser);
-    console.log(resUser);
+    // const resUser = await api.getUser();
+    // setUserData(resUser);
+    // console.log(resUser);
 
-    // получаем данные секции
-    const resUsers = await api.getUsers();
-    setUsersData(resUsers);
-    console.log(resUsers);
+    // получаем данные пользователей всех в проекте
+    // const resUsers = await api.getUsers();
+    // setUsersData(resUsers);
+    // console.log(resUsers);
 
     // получаем разделы для пользователя
     const resSections = await api.getSections();

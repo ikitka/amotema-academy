@@ -35,11 +35,13 @@ const Buttons = styled.div`
     font-size: 16px;
 
     &:first-of-type {
-      background: #4CAF50; /* Зеленая кнопка */
+      background: #60c263;
+      width: 100px;
     }
 
     &:last-of-type {
-      background: #f44336; /* Красная кнопка */
+      background: #c9645d;
+      width: 100px;
     }
   }
 `;

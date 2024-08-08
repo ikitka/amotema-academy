@@ -11,7 +11,7 @@ import CreateTools from './components/CreateTools';
 
 
 const ArticleCreate = () => {
-  const { selectedSection, articleNewParent, addArticle } = useContext(ModalContext);
+  const { selectedSection, articleNewParent, addArticle, setActiveContainer, setSelectedArticle } = useContext(ModalContext);
 
   const [text, setText] = useState('');
   const [name, setName] = useState('');
@@ -43,6 +43,8 @@ const ArticleCreate = () => {
 
     if (response) {
       addArticle(response);
+      setActiveContainer('show-article');
+      setSelectedArticle(response);
       console.log(response);
     }
   };

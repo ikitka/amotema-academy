@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { ModalContext } from '../../../../../contexts/ModalContext';
 
 const CreateHeader = ({ selectedSection, articleNewParent, name, setName, handleCreateArticle }) => {
+  
+  const { setActiveContainer } = useContext(ModalContext);
+
+  const handleCancel = () => {
+    setActiveContainer('show-article');
+  }
+  
   return (
     <TopContainer>
       {selectedSection && (
@@ -18,7 +26,7 @@ const CreateHeader = ({ selectedSection, articleNewParent, name, setName, handle
         />
         <ButtonGroup>
           <ButtonSave onClick={handleCreateArticle}>Сохранить</ButtonSave>
-          <ButtonCancel>Отменить</ButtonCancel>
+          <ButtonCancel onClick={handleCancel}>Отменить</ButtonCancel>
         </ButtonGroup>
       </ContainerInput>
     </TopContainer>

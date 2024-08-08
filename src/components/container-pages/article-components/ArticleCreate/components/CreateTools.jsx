@@ -5,6 +5,8 @@ const CreateTools = ({ viewState, setViewState, text, setText }) => {
   const [history, setHistory] = useState([text]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
+  const [isLoadingNeural, setIsLoadingNeural] = useState(false);
+
   // Функция для обновления текста с добавлением в историю
   const updateText = (newText) => {
     const updatedHistory = [...history.slice(0, historyIndex + 1), newText];
@@ -39,6 +41,43 @@ const CreateTools = ({ viewState, setViewState, text, setText }) => {
       textarea.focus();
     });
   };
+
+
+    
+  const handleNeural = async () => {
+
+    setIsLoadingNeural(true);
+
+    const url = 'https://test-widget-9417.website/prod_projects/gktema/knowledge-base/yandexGptRequest.php';
+    
+    const requestBody = {
+      temperature: 0.6,
+      maxTokens: 1000,
+      systemText: 'Напиши на русском языке статью в разметке markdown по промпту',
+      userText: text,
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      setText(data?.result?.alternatives?.[0]?.message?.text || 'Ответ не найден');
+
+      setIsLoadingNeural(false);
+
+    } catch (error) {
+      console.error('Ошибка при выполнении запроса:', error);
+    }
+  };
+
+
 
   const handleBold = () => insertText('**', '**', true);
   const handleUnderline = () => insertText('__', '__', true);
@@ -168,6 +207,7 @@ const CreateTools = ({ viewState, setViewState, text, setText }) => {
 
   return (
     <MiddleContainer>
+      
       <ButtonGroupContainer>
         <ButtonRow>
           <CustomButton onClick={() => setViewState('left')} active={viewState === 'left'}>
@@ -195,6 +235,14 @@ const CreateTools = ({ viewState, setViewState, text, setText }) => {
         </ButtonRow>
         <GroupLabel>Форматирование</GroupLabel>
       </ButtonGroupContainer>
+
+      <ButtonGroupContainer>
+        <ButtonRow>
+          <CustomButton onClick={handleNeural} style={isLoadingNeural ? { cursor: 'not-allowed' } : {}} disabled={isLoadingNeural}>Сделать красиво</CustomButton>
+        </ButtonRow>
+        <GroupLabel>Нейрожмыхинг</GroupLabel>
+      </ButtonGroupContainer>
+
     </MiddleContainer>
   );
 };
@@ -240,6 +288,7 @@ const CustomButton = styled.span`
   background-color: ${({ active }) => (active ? '#007bff' : '#ffffff')};
   color: ${({ active }) => (active ? '#fff' : '#000')};
   transition: background-color 0.3s ease-in-out;
+  disable: ${({ disabled }) => (disabled ? 'true' : 'false')};
 
   &:hover {
     background-color: ${({ active }) => (active ? '#0056b3' : '#e0e0e0')};

@@ -163,6 +163,86 @@ const MarkdownContainer = styled.div`
   th:nth-child(3), td:nth-child(3) {
     text-align: right; /* Выравнивание по правому краю для третьего столбца */
   }
+
+  a {
+    color: #007BFF; /* Цвет ссылок */
+    text-decoration: underline; /* Подчеркивание для ссылок */
+    cursor: pointer; /* Курсор указателя */
+  }
+
+  a:hover {
+    color: #0056b3; /* Темнее при наведении */
+  }
+
+  img {
+    max-width: 100%; /* Изображение не выходит за пределы контейнера */
+    height: auto; /* Автоматическая настройка высоты */
+    display: block; /* Убирает отступы снизу */
+    margin: 20px 0; /* Отступы сверху и снизу */
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    margin-top: 18px;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    margin-top: 16px;
+  }
+
+  h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 14px;
+    margin-top: 14px;
+  }
+
+  h5 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    margin-top: 12px;
+  }
+
+  h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  blockquote blockquote {
+    margin-left: 20px;
+    border-left: 3px solid #bbb; /* Более тонкая граница для вложенных цитат */
+  }
+
+  ul {
+    margin: 20px 0; /* Отступы сверху и снизу */
+    padding-left: 20px; /* Отступ слева для маркеров списка */
+    list-style-type: disc; /* Маркеры в виде дисков */
+    font-size: 16px; /* Размер шрифта */
+  }
+
+  ul ul {
+    margin-left: 20px; /* Дополнительный отступ для вложенных списков */
+    list-style-type: circle; /* Изменяем стиль маркеров для вложенных списков */
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc; /* Цвет линии */
+    margin: 20px 0; /* Отступы сверху и снизу */
+  }
+
+  p {
+    max-width: 1400px;
+  }
 `;
 
 const CopyButton = styled.button`
