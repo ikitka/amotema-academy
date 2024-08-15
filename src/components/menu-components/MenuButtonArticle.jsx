@@ -4,7 +4,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 import api from '../../api/api';
 import ContextMenu from '../../ui/ContextMenu/ContextMenu';
 
-const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleExpand }) => {
+const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleExpand, canEdit }) => {
   const { selectedArticle, setSelectedArticle, setActiveContainer, setArticleNewParent } = useContext(ModalContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState(null);
@@ -64,7 +64,9 @@ const MenuButtonArticle = ({ name, id, level, hasChildren, isExpanded, onToggleE
       >
         <IconContainer style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{hasChildren ? (isExpanded ? '=' : '>') : '•'}</IconContainer>
         <Text style={{ color: hasChildren ? '#000000' : '#5e5e5e' }}>{name}</Text>
-        <Button visible={isButtonVisible} onClick={handleClickAdditional}>+</Button>
+        {canEdit && (
+          <Button visible={isButtonVisible} onClick={handleClickAdditional}>+</Button>
+        )}
       </Container>
       {menuPosition && (
         <ContextMenu

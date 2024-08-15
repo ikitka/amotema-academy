@@ -163,12 +163,12 @@ const MenuStyled = styled.div`
 
 const SearchContainer = styled.div`
   flex-shrink: 0;
-  height: 40px;
+  height: 75px;
 `;
 
 const MenuContainer = styled.div`
-  flex: 1; /* Позволяет MenuContainer занимать всё доступное пространство */
-  overflow-y: auto; /* Добавляет прокрутку при необходимости */
+  flex: 1;
+  overflow-y: auto;
 `;
 
 const ButtonsContainer = styled.div`

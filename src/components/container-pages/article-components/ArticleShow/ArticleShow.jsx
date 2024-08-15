@@ -9,13 +9,14 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 import ArticleHeader from './components/ArticleHeader';
+import ArticleTest from '../../tests-components/ArticleTest';
 
 
 
 
 const ArticleShow = () => {
 
-  const { selectedArticle } = useContext(ModalContext);
+  const { selectedArticle, typeArticleSwitcher } = useContext(ModalContext);
 
   const copyCodeToClipboard = async (code) => {
     try {
@@ -25,6 +26,10 @@ const ArticleShow = () => {
       alert('Не удалось скопировать код');
     }
   };
+
+  useEffect(() => {
+    console.log('selectedArticle', selectedArticle);
+  }, []);
   
   
   return (
@@ -35,38 +40,51 @@ const ArticleShow = () => {
         <ArticleHeader article={selectedArticle} />
         
         <ContainerStyled>
-          <ReactMarkdown
-            children={selectedArticle.content}
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                if (inline) {
-                  return <code className={className} {...props}>{children}</code>;
+          
+        {typeArticleSwitcher === 'article' && (
+          <ContainerStyledInside>
+            <ReactMarkdown
+              children={selectedArticle.content}
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                code({ node, inline, className, children, ...props }) {
+                  if (inline) {
+                    return <code className={className} {...props}>{children}</code>;
+                  }
+                  
+                  const language = /language-(\w+)/.exec(className || '')?.[1] || 'text';
+                  const codeString = String(children).replace(/\n$/, '');
+    
+                  return (
+                    <CodeContainer>
+                      
+                      <SyntaxHighlighter
+                        {...props}
+                        PreTag="div"
+                        language={language}
+                        style={a11yDark}
+                        children={codeString}
+                      />
+                      <CopyButton onClick={() => copyCodeToClipboard(codeString)}>
+                        Копировать
+                      </CopyButton>
+                    </CodeContainer>
+                  );
                 }
-                
-                const language = /language-(\w+)/.exec(className || '')?.[1] || 'text';
-                const codeString = String(children).replace(/\n$/, '');
-  
-                return (
-                  <CodeContainer>
-                    
-                    <SyntaxHighlighter
-                      {...props}
-                      PreTag="div"
-                      language={language}
-                      style={a11yDark}
-                      children={codeString}
-                    />
-                    <CopyButton onClick={() => copyCodeToClipboard(codeString)}>
-                      Копировать
-                    </CopyButton>
-                  </CodeContainer>
-                );
-              }
-            }}
-          />
+              }}
+            />
+          </ContainerStyledInside>
+        )}
+
+        {typeArticleSwitcher === 'tests' && (
+          <ContainerStyledInside>
+            <ArticleTest articleId={selectedArticle.id} />
+          </ContainerStyledInside>
+        )}
+
         </ContainerStyled>
+
       </ContainerArticle>
       }
     </>
@@ -79,13 +97,22 @@ const ContainerArticle = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  justify-content: center;
+`;
+
+const ContainerStyledInside = styled.div`
+  width: 90%;
+  text-align: justify;
 `;
 
 const ContainerStyled = styled.div`
 
-  margin-top: 25px;
+  margin-top: 15px;
   height: 100%;
   overflow-y: auto;
+
+  justify-content: center;
+  display: flex;
 
   h1 {
     font-size: 26px;
@@ -173,7 +200,9 @@ const ContainerStyled = styled.div`
     max-width: 100%; /* Изображение не выходит за пределы контейнера */
     height: auto; /* Автоматическая настройка высоты */
     display: block; /* Убирает отступы снизу */
-    margin: 20px 0; /* Отступы сверху и снизу */
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   h2 {

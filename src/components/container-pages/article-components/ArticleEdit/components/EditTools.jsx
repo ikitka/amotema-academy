@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const EditTools = ({ viewState, setViewState, text, setText }) => {
   const [history, setHistory] = useState([text]);
   const [historyIndex, setHistoryIndex] = useState(0);
-
   const [isLoadingNeural, setIsLoadingNeural] = useState(false);
+
+  const [showPromptModal, setShowPromptModal] = useState(false);
+  const [promptText, setPromptText] = useState('Напиши на русском языке статью в разметке markdown по промпту');
+  const [userPromptText, setUserPromptText] = useState('');
+  const buttonRef = useRef(null);
 
   // Функция для обновления текста с добавлением в историю
   const updateText = (newText) => {
@@ -43,16 +47,15 @@ const EditTools = ({ viewState, setViewState, text, setText }) => {
   };
 
   const handleNeural = async () => {
-
     setIsLoadingNeural(true);
 
     const url = 'https://test-widget-9417.website/prod_projects/gktema/knowledge-base/yandexGptRequest.php';
-    
+
     const requestBody = {
       temperature: 0.6,
       maxTokens: 1000,
-      systemText: 'Напиши на русском языке статью в разметке markdown по промпту',
-      userText: text,
+      systemText: promptText,
+      userText: userPromptText,
     };
 
     try {
@@ -65,13 +68,12 @@ const EditTools = ({ viewState, setViewState, text, setText }) => {
       });
 
       const data = await response.json();
-      console.log(data);
       setText(data?.result?.alternatives?.[0]?.message?.text || 'Ответ не найден');
-
       setIsLoadingNeural(false);
-
+      setShowPromptModal(false);  // Закрыть окно после генерации
     } catch (error) {
       console.error('Ошибка при выполнении запроса:', error);
+      setIsLoadingNeural(false);
     }
   };
 
@@ -79,7 +81,7 @@ const EditTools = ({ viewState, setViewState, text, setText }) => {
   const handleUnderline = () => insertText('__', '__', true);
   const handleStrikethrough = () => insertText('~~', '~~', true);
   const handleCode = () => insertText('`', '`', true);
-  const handleNewline = () => insertText('', '\\', true);
+  const handleNewline = () => insertText('', '<br><br>', true);
   const handleItalic = () => insertText('_', '_', true);
   const handleHeader = () => {
     const textarea = document.querySelector('textarea');
@@ -221,12 +223,12 @@ const EditTools = ({ viewState, setViewState, text, setText }) => {
 
       <ButtonGroupContainer>
         <ButtonRow>
-          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/bold.png" title="CTRL + B" onClick={handleBold}></CustomImage>
-          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/italic.png" title="CTRL + I" onClick={handleItalic}></CustomImage>
-          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/header.png" title="CTRL + H" onClick={handleHeader}></CustomImage>
-          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/blockquote.png" title="CTRL + Q" onClick={handleBlockquote}></CustomImage>
-          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/image.png" onClick={handleImage}></CustomImage>
-          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/video.png" onClick={handleVideo}></CustomImage>
+          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/academy/bold.png" title="CTRL + B" onClick={handleBold}></CustomImage>
+          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/academy/italic.png" title="CTRL + I" onClick={handleItalic}></CustomImage>
+          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/academy/header.png" title="CTRL + H" onClick={handleHeader}></CustomImage>
+          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/academy/blockquote.png" title="CTRL + Q" onClick={handleBlockquote}></CustomImage>
+          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/academy/image.png" onClick={handleImage}></CustomImage>
+          <CustomImage src="https://test-widget-9417.website/prod_projects/gktema/academy/video.png" onClick={handleVideo}></CustomImage>
           <CustomButton onClick={handleNewline}>Перенос</CustomButton>
         </ButtonRow>
         <GroupLabel>Форматирование</GroupLabel>
@@ -234,16 +236,48 @@ const EditTools = ({ viewState, setViewState, text, setText }) => {
 
       <ButtonGroupContainer>
         <ButtonRow>
-          <CustomButton onClick={handleNeural} style={isLoadingNeural ? { cursor: 'not-allowed' } : {}} disabled={isLoadingNeural}>Сделать красиво</CustomButton>
+          <CustomButton ref={buttonRef} onClick={() => setShowPromptModal(!showPromptModal)} style={isLoadingNeural ? { cursor: 'not-allowed' } : {}} disabled={isLoadingNeural}>
+            НейроGPT
+          </CustomButton>
         </ButtonRow>
         <GroupLabel>Нейрожмыхинг</GroupLabel>
       </ButtonGroupContainer>
+
+      {showPromptModal && (
+        <PromptModal style={{ top: `${buttonRef.current.offsetTop + buttonRef.current.offsetHeight}px`, left: `${buttonRef.current.offsetLeft}px` }}>
+          <ModalContent>
+            <ModalLabel>Промпт</ModalLabel>
+            <ModalInput
+              value={promptText}
+              onChange={(e) => setPromptText(e.target.value)}
+            />
+            <ModalLabel>Текст</ModalLabel>
+            <ModalInput
+              value={userPromptText}
+              onChange={(e) => setUserPromptText(e.target.value)}
+            />
+            <ModalButton onClick={handleNeural} disabled={isLoadingNeural}>
+              Сгенерировать
+            </ModalButton>
+          </ModalContent>
+        </PromptModal>
+      )}
 
     </MiddleContainer>
   );
 };
 
 export default EditTools;
+
+
+
+
+
+
+
+
+
+
 
 const MiddleContainer = styled.div`
   display: flex;
@@ -302,5 +336,59 @@ const CustomImage = styled.img`
   &:hover {
     cursor: pointer;
     background-color: #e0e0e0;
+  }
+`;
+
+const PromptModal = styled.div`
+  position: absolute;
+  top: 50px; /* Смещение от верхнего края окна, можно изменить */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Выше остальных элементов */
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const ModalLabel = styled.label`
+  font-size: 12px;
+  color: #333;
+`;
+
+const ModalInput = styled.textarea`
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  resize: none;
+  min-height: 70px;
+  min-width: 300px;
+`;
+
+const ModalButton = styled.button`
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
   }
 `;

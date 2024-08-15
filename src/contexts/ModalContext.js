@@ -17,6 +17,8 @@ const ModalProvider = ({ children }) => {
 
   const [articleNewParent, setArticleNewParent] = useState({});
 
+  const [typeArticleSwitcher, setTypeArticleSwitcher] = useState('article');
+
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
@@ -83,13 +85,17 @@ const ModalProvider = ({ children }) => {
         
         userData, setUserData,      // данные по пользователю
         usersData, setUsersData,    // данные по пользователям
+
+        
         
         selectedArticle, setSelectedArticle,  // выбранная сейчас статья
         selectedSection, setSelectedSection,  // выбранный сейчас раздел
         
         activeType, setActiveType,            // для отображения кнопки создания статьи или раздела
 
-        articleNewParent, setArticleNewParent // данные по родительской статье при добавлении новой статьи
+        articleNewParent, setArticleNewParent, // данные по родительской статье при добавлении новой статьи
+
+        typeArticleSwitcher, setTypeArticleSwitcher // для переключения между статьями и разделами
       }}
     >
       {children}

@@ -7,6 +7,9 @@ import dataConverter from '../../../../../handlers/dataConverter';
 import { ModalContext } from '../../../../../contexts/ModalContext';
 import api from '../../../../../api/api';
 import ModalDelete from '../../../../modal-сonsist/modals/ModalDelete';
+import ArticleSwitcher from './ArticleSwitcher';
+
+
 
 const ArticleHeader = ({ article }) => {
   const { setActiveSection, deleteArticle, setActiveContainer } = useContext(ModalContext);
@@ -16,7 +19,7 @@ const ArticleHeader = ({ article }) => {
 
   const user = takeAmoUser(article.author);
   const userName = user ? user.title : 'Имя не известно';
-  const userAvatar = user && user.avatar ? 'https://tematechnics.amocrm.ru/' + user.avatar : 'https://test-widget-9417.website/prod_projects/gktema/icon-user.png';
+  const userAvatar = user && user.avatar ? 'https://tematechnics.amocrm.ru/' + user.avatar : 'https://test-widget-9417.website/prod_projects/gktema/academy/icon-user.png';
 
   const deleteArticleThere = async (id) => {
     console.log(id);
@@ -84,35 +87,44 @@ const ArticleHeader = ({ article }) => {
         </LeftContainer>
 
         <RightContainer>
-          <CustomButton
-            text='Редактировать'
-            padding={'4px 10px'}
-            color='white'
-            onClick={() => handleArticleEdit(article)}
-            style={{
-              opacity: 1,
-              cursor: 'pointer',
-              border: '1px solid #bbbbbb',
-            }}
-          />
+          {article.can_edit && (
+            <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <CustomButton
+                text='Редактировать'
+                icon={'https://test-widget-9417.website/prod_projects/gktema/academy/icon-edit.png'}
+                padding={'4px 4px'}
+                color='white'
+                onClick={() => handleArticleEdit(article)}
+                style={{
+                  opacity: 1,
+                  cursor: 'pointer',
+                  border: '1px solid #bbbbbb',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              />
 
-          <CustomButton
-            text='Удалить'
-            padding={'4px 10px'}
-            color='red'
-            onClick={() => handleDeleteClick(article.id)}
-            style={{
-              opacity: 1,
-              cursor: 'pointer',
-              border: '1px solid #bbbbbb',
-              marginLeft: '5px',
-            }}
-          />
-
+              <CustomButton
+                icon={'https://test-widget-9417.website/prod_projects/gktema/academy/icon-remove.png'}
+                padding={'4px 4px'}
+                color='red'
+                onClick={() => handleDeleteClick(article.id)}
+                style={{
+                  opacity: 1,
+                  cursor: 'pointer',
+                  border: '1px solid #bbbbbb',
+                  marginLeft: '5px',
+                }}
+              />
+            </div>
+          )}
           <div style={{ fontSize: '13px', display: 'block', marginTop: '10px', textAlign: 'end' }}>{handleGetStats(article.content)}</div>
 
         </RightContainer>
+
       </Container>
+
+      <ArticleSwitcher />
 
       <ModalDelete
         isOpen={isModalOpen}
@@ -128,8 +140,6 @@ export default ArticleHeader;
 const Container = styled.div`
   display: flex;
   width: 100%;
-  border-bottom: 1px solid #bbbbbb;
-  padding-bottom: 20px;
 `;
 
 const LeftContainer = styled.div`

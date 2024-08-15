@@ -66,7 +66,7 @@ const Button = styled.div`
   }
 `;
 
-const CustomButton = ({ style, color, text, padding, onClick, disabled }) => {
+const CustomButton = ({ style, color, text, padding, onClick, disabled, icon }) => {
   return (
     <Button
       style={style}
@@ -75,9 +75,16 @@ const CustomButton = ({ style, color, text, padding, onClick, disabled }) => {
       onClick={!disabled ? onClick : undefined}
       disabled={disabled}
     >
-      {text}
+      {icon && <Icon src={icon} />}
+      {text && text}
     </Button>
   );
 };
 
 export default CustomButton;
+
+const Icon = styled.img`
+  height: 16px;
+  width: 16px;
+  padding: 3px 5px;
+`;

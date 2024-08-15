@@ -8,8 +8,8 @@ const MenuButtonSection = ({ name, handleClick, section, id, mode }) => {
   return (
     <Container onClick={() => handleClick(section)} >
       <IconContainer>
-        {mode === 'default' && <img src={'https://test-widget-9417.website/prod_projects/gktema/icon-book2.png'} style={{width: '20px', height: '20px'}}/>}
-        {mode === 'active' && <img src={'https://test-widget-9417.website/prod_projects/gktema/icon-backward.png'} style={{width: '20px', height: '20px'}}/>}
+        {mode === 'default' && <img src={'https://test-widget-9417.website/prod_projects/gktema/academy/icon-book2.png'} style={{width: '20px', height: '20px'}}/>}
+        {mode === 'active' && <img src={'https://test-widget-9417.website/prod_projects/gktema/academy/icon-backward.png'} style={{width: '20px', height: '20px'}}/>}
       </IconContainer>
       <Text>{name}</Text>
     </Container>

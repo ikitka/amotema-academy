@@ -55,6 +55,7 @@ const MenuContainerArticles = ({ sectionId }) => {
           <MenuButtonArticle 
             name={article.name}
             id={article.id}
+            canEdit={article.can_edit}
             level={level}
             hasChildren={children.length > 0}
             isExpanded={isParentExpanded}
